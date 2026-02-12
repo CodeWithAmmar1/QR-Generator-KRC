@@ -54,8 +54,6 @@ class Qrpage extends StatelessWidget {
               ),
             ),
           ),
-
-          // RIGHT SIDE: QR PREVIEW
           Expanded(
             flex: 1,
             child: Container(
