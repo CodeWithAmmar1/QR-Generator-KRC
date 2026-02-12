@@ -9,10 +9,8 @@ class QRGeneratorController extends GetxController {
   var ssid = "".obs;
   var password = "".obs;
   var isHidden = false.obs;
-
-  // 1. Initialize Screenshot Controller
   final ScreenshotController screenshotController = ScreenshotController();
-
+  
   String _escape(String value) {
     return value
         .replaceAll('\\', '\\\\')
@@ -27,11 +25,9 @@ class QRGeneratorController extends GetxController {
     String escapedSsid = _escape(ssid.value);
     String escapedPass = _escape(password.value);
     String hidden = isHidden.value ? "true" : "false";
-
     return "WIFI:T:$encryption;S:$escapedSsid;P:$escapedPass;H:$hidden;;";
   }
 
-  // 2. Download Function for Web
   Future<void> downloadQR() async {
     try {
       final imageBytes = await screenshotController.capture();

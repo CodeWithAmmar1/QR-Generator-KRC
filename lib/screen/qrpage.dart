@@ -118,7 +118,6 @@ class Qrpage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Wrap ONLY the part you want to be in the final image
         Screenshot(
           controller: controller.screenshotController,
           child: Column(
@@ -196,8 +195,6 @@ class Qrpage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 25),
-
-        // DOWNLOAD BUTTON
         ElevatedButton.icon(
           onPressed: () => controller.downloadQR(),
           icon: const Icon(Icons.download_rounded),
