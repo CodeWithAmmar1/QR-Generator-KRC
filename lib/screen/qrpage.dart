@@ -91,7 +91,7 @@ class Qrpage extends StatelessWidget {
           child: QrImageView(data: data, version: QrVersions.auto, size: 200.0),
         ),
         Container(
-          width: 228, 
+          width: 228,
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: const BoxDecoration(
             color: Colors.black,
