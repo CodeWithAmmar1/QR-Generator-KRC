@@ -12,6 +12,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(title: 'Qr-Page', home: Qrpage());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Qr-Page',
+      home: Qrpage(),
+    );
   }
 }

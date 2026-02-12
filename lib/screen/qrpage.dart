@@ -13,6 +13,7 @@ class Qrpage extends StatelessWidget {
       backgroundColor: const Color(0xffF8F9FA),
       body: Row(
         children: [
+          // LEFT SIDE: INPUT FIELDS
           Expanded(
             flex: 2,
             child: Padding(
@@ -20,40 +21,44 @@ class Qrpage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "WiFi QR Code",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff082A5C),
-                    ),
-                  ),
+                  const Text("WiFi QR Code", 
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xff082A5C))),
                   const SizedBox(height: 30),
+                  
                   _buildInputLabel("Network Name (SSID)"),
                   TextField(
                     onChanged: (val) => controller.ssid.value = val,
-                    decoration: _inputDecoration("e.g. MyHomeWiFi"),
+                    decoration: _inputDecoration("Enter SSID"),
                   ),
+                  
+                  Obx(() => Row(
+                    children: [
+                      Checkbox(
+                        value: controller.isHidden.value,
+                        activeColor: const Color(0xff082A5C),
+                        onChanged: (val) => controller.isHidden.value = val!,
+                      ),
+                      const Text("Hidden Network?", style: TextStyle(color: Colors.grey)),
+                    ],
+                  )),
+
                   const SizedBox(height: 20),
                   _buildInputLabel("Password"),
                   TextField(
-                    obscureText: true,
+                    obscureText: false, // Visible as requested
                     onChanged: (val) => controller.password.value = val,
-                    decoration: _inputDecoration("********"),
+                    decoration: _inputDecoration("Enter Password"),
                   ),
                   const SizedBox(height: 20),
                   _buildInputLabel("Encryption"),
-                  const Text(
-                    "Locked to WPA/WPA2",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const Text("Locked to WPA/WPA2", 
+                    style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
           ),
+
+          // RIGHT SIDE: QR PREVIEW
           Expanded(
             flex: 1,
             child: Container(
@@ -64,9 +69,7 @@ class Qrpage extends StatelessWidget {
                 border: Border.all(color: Colors.grey.shade300),
               ),
               child: Center(
-                child: Obx(
-                  () => _buildQRFrame(controller.ssid.value, controller.qrData),
-                ),
+                child: Obx(() => _buildQRFrame(controller.ssid.value, controller.qrData)),
               ),
             ),
           ),
@@ -76,23 +79,52 @@ class Qrpage extends StatelessWidget {
   }
 
   Widget _buildQRFrame(String ssidName, String data) {
+    if (data.isEmpty) return const Text("Enter SSID to generate");
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // THE WHITE QR BOX WITH BLACK BORDER
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 4),
+            color: Colors.white,
+            border: Border.all(color: Colors.black, width: 3), 
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
           ),
-          child: QrImageView(data: data, version: QrVersions.auto, size: 200.0),
+          child: QrImageView(
+            data: data,
+            version: QrVersions.auto,
+            size: 200.0,
+            gapless: true, 
+            backgroundColor: Colors.white,
+            // 🛡️ Error correction set to High to support the logo overlay
+            errorCorrectionLevel: QrErrorCorrectLevel.H,
+            
+            // 🖼️ LOGO CONFIGURATION
+            embeddedImage: const AssetImage('assets/logo.png'), 
+            embeddedImageStyle: const QrEmbeddedImageStyle(
+              size: Size(50, 50),
+            ),
+
+            dataModuleStyle: const QrDataModuleStyle(
+              dataModuleShape: QrDataModuleShape.square,
+              color: Colors.black,
+            ),
+            eyeStyle: const QrEyeStyle(
+              eyeShape: QrEyeShape.square,
+              color: Colors.black,
+            ),
+          ),
         ),
+        
+        // THE BLACK ID BAR (SCAN ME / SSID)
         Container(
-          width: 228,
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          width: 236, 
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: const BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.only(
@@ -101,13 +133,13 @@ class Qrpage extends StatelessWidget {
             ),
           ),
           child: Text(
-            ssidName.isEmpty ? "SET SSID" : ssidName.toUpperCase(),
+            ssidName.isEmpty ? "SCAN ME" : ssidName.toUpperCase(),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
-              letterSpacing: 2,
+              letterSpacing: 1.5,
             ),
           ),
         ),
@@ -118,13 +150,8 @@ class Qrpage extends StatelessWidget {
   Widget _buildInputLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          color: Color(0xff082A5C),
-        ),
-      ),
+      child: Text(label,
+        style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xff082A5C))),
     );
   }
 
@@ -133,7 +160,15 @@ class Qrpage extends StatelessWidget {
       hintText: hint,
       filled: true,
       fillColor: Colors.white,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
     );
   }
 }
