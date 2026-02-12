@@ -1,11 +1,18 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:screenshot/screenshot.dart';
+// ignore: avoid_web_libraries_in_flutter, deprecated_member_use
+import 'dart:html' as html; 
 
 class QRGeneratorController extends GetxController {
   var ssid = "".obs;
   var password = "".obs;
-  var isHidden = false.obs; // Added for hidden networks
+  var isHidden = false.obs;
 
-  // 1. Helper function to escape special characters (\ ; , : )
+  // 1. Initialize Screenshot Controller
+  final ScreenshotController screenshotController = ScreenshotController();
+
   String _escape(String value) {
     return value
         .replaceAll('\\', '\\\\')
@@ -14,15 +21,28 @@ class QRGeneratorController extends GetxController {
         .replaceAll(':', '\\:');
   }
 
-  // 2. Updated Format: WIFI:T:WPA;S:ssid;P:password;H:true;;
   String get qrData {
     if (ssid.value.isEmpty) return "";
-    
-    String encryption = "WPA"; // This covers both WPA and WPA2
+    String encryption = "WPA"; 
     String escapedSsid = _escape(ssid.value);
     String escapedPass = _escape(password.value);
     String hidden = isHidden.value ? "true" : "false";
 
     return "WIFI:T:$encryption;S:$escapedSsid;P:$escapedPass;H:$hidden;;";
+  }
+
+  // 2. Download Function for Web
+  Future<void> downloadQR() async {
+    try {
+      final imageBytes = await screenshotController.capture();
+      
+      if (imageBytes != null) {
+        final blob = html.Blob([imageBytes]);
+        final url = html.Url.createObjectUrlFromBlob(blob); 
+        html.Url.revokeObjectUrl(url);
+      }
+    } catch (e) {
+      log("Download failed: $e");
+    }
   }
 }
