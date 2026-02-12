@@ -5,4 +5,4 @@
 ## Web Output:
 
 
-link : https://cerulean-marzipan-aac04b.netlify.app/
+link : https://qrgenerator-bykrc.netlify.app/
