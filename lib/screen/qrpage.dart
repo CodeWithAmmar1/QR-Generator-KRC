@@ -183,9 +183,9 @@ class Qrpage extends StatelessWidget {
                 child: Text(
                   ssidName.isEmpty ? "SCAN ME" : ssidName.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.5,
                   ),
