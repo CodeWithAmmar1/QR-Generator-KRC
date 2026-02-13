@@ -127,7 +127,11 @@ class Qrpage extends StatelessWidget {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 3),
+                  border: Border(
+                    top: BorderSide(color: Colors.black, width: 9),
+                    left: BorderSide(color: Colors.black, width: 9),
+                    right: BorderSide(color: Colors.black, width: 9),
+                  ),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -139,7 +143,7 @@ class Qrpage extends StatelessWidget {
                     QrImageView(
                       data: data,
                       version: QrVersions.auto,
-                      size: 200.0,
+                      size: 180.0,
                       gapless: true,
                       backgroundColor: Colors.white,
                       errorCorrectionLevel: QrErrorCorrectLevel.H,
@@ -171,8 +175,8 @@ class Qrpage extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 236,
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                width: 228,
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 decoration: const BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.only(
@@ -180,14 +184,16 @@ class Qrpage extends StatelessWidget {
                     bottomRight: Radius.circular(15),
                   ),
                 ),
-                child: Text(
-                  ssidName.isEmpty ? "SCAN ME" : ssidName.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+                child: Center(
+                  child: Text(
+                    ssidName.isEmpty ? "SCAN ME" : ssidName.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),
