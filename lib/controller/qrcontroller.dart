@@ -25,7 +25,6 @@ class QRGeneratorController extends GetxController {
     String escapedSsid = _escape(ssid.value);
     String escapedPass = _escape(password.value);
     String hidden = isHidden.value ? "true" : "false";
-
     return "WIFI:T:$encryption;S:$escapedSsid;P:$escapedPass;H:$hidden;;";
   }
 
