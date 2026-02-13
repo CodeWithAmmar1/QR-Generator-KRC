@@ -36,7 +36,7 @@ Future<void> downloadQR() async {
       final blob = html.Blob([imageBytes], 'image/png');
       final url = html.Url.createObjectUrlFromBlob(blob);
       final anchor = html.AnchorElement(href: url)
-        ..setAttribute("download", "${ssid.value}_wifi_qr.png")
+        ..setAttribute("download", "${ssid.value}.png")
         ..style.display = 'none'; 
       html.document.body?.append(anchor);
       anchor.click();
