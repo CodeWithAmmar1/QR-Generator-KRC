@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
 // ignore: avoid_web_libraries_in_flutter, deprecated_member_use
@@ -43,7 +45,7 @@ Future<void> downloadQR() async {
       html.Url.revokeObjectUrl(url);
     }
   } catch (e) {
-    print("Download error: $e");
+    log("Download error: $e");
   }
 }
   
