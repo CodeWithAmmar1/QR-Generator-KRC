@@ -69,6 +69,23 @@ class Qrpage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  _buildInputLabel("Download Size (Width in Inches)"),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: _inputDecoration("e.g., 3.15 or 1.69"),
+                    onChanged: (val) {
+                      double? d = double.tryParse(val);
+                      if (d != null) controller.widthInches.value = d;
+                    },
+                  ),
+                  Obx(
+                    () => Text(
+                      "Aspect Ratio Locked: ${(controller.widthInches.value / 1.5).toStringAsFixed(2)}'' Height",
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ),
+
                   SizedBox(height: 40),
                   const Text(
                     "Power By Kazmah Regional Company",
@@ -202,7 +219,7 @@ class Qrpage extends StatelessWidget {
         ),
         const SizedBox(height: 25),
         ElevatedButton.icon(
-          onPressed: () => controller.downloadQR(),
+          onPressed: () => controller.downloadQR(controller.widthInches.value),
           icon: const Icon(Icons.download_rounded),
           label: const Text("Download PNG"),
           style: ElevatedButton.styleFrom(
