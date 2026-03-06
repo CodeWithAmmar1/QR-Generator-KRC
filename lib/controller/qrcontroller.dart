@@ -86,7 +86,7 @@ class QRGeneratorController extends GetxController {
               QrImageView(
                 data: qrData,
                 version: QrVersions.auto,
-                size: width * 0.75,
+                size: width * 0.78,
                 errorCorrectionLevel:
                     QrErrorCorrectLevel.H, // Mandatory for logo overlay
               ),

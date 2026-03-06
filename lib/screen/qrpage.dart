@@ -141,7 +141,7 @@ class Qrpage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border(
@@ -160,7 +160,7 @@ class Qrpage extends StatelessWidget {
                     QrImageView(
                       data: data,
                       version: QrVersions.auto,
-                      size: 180.0,
+                      size: 194.0,
                       gapless: true,
                       backgroundColor: Colors.white,
                       errorCorrectionLevel: QrErrorCorrectLevel.H,
@@ -235,6 +235,10 @@ class Qrpage extends StatelessWidget {
     );
   }
 
+ 
+ 
+  
+  
   Widget _buildInputLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
